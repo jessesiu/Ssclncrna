@@ -1,0 +1,4 @@
+browser	position	chr1:24620809-24621651
+browser	hide	all
+track	name='GlncRNA0000526'	description='GlncRNA0000526'	visibility=2
+chr1	24620809	24621651	GlncRNA0000526	1000	-	24620809	24621651	0	1	842,	0,

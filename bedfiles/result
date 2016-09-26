@@ -1,0 +1,125 @@
+BLASTN 2.2.30+
+
+
+Reference: Stephen F. Altschul, Thomas L. Madden, Alejandro A.
+Schaffer, Jinghui Zhang, Zheng Zhang, Webb Miller, and David J.
+Lipman (1997), "Gapped BLAST and PSI-BLAST: a new generation of
+protein database search programs", Nucleic Acids Res. 25:3389-3402.
+
+
+
+Database: /Users/xiaosizhe/Downloads/Annotated_lncRNA.fasta
+           113,266 sequences; 181,954,928 total letters
+
+
+
+Query= 
+Length=367
+                                                                      Score     E
+Sequences producing significant alignments:                          (Bits)  Value
+
+GlncRNA0000003                                                          663   0.0  
+GlncRNA0029094                                                        37.4    0.35 
+GlncRNA0029093                                                        37.4    0.35 
+GlncRNA0088614                                                        35.6    1.2  
+GlncRNA0062243                                                        35.6    1.2  
+GlncRNA0062242                                                        35.6    1.2  
+GlncRNA0032067                                                        35.6    1.2  
+GlncRNA0005368                                                        35.6    1.2  
+GlncRNA0109120                                                        33.7    4.2  
+GlncRNA0092825                                                        33.7    4.2  
+GlncRNA0055377                                                        33.7    4.2  
+GlncRNA0055376                                                        33.7    4.2  
+GlncRNA0053610                                                        33.7    4.2  
+GlncRNA0053609                                                        33.7    4.2  
+GlncRNA0043407                                                        33.7    4.2  
+GlncRNA0043406                                                        33.7    4.2  
+GlncRNA0032570                                                        33.7    4.2  
+GlncRNA0032569                                                        33.7    4.2  
+GlncRNA0032431                                                        33.7    4.2  
+GlncRNA0030330                                                        33.7    4.2  
+GlncRNA0030329                                                        33.7    4.2  
+GlncRNA0030325                                                        33.7    4.2  
+
+
+>GlncRNA0000003 
+Length=4153
+
+ Score =   663 bits (734),  Expect = 0.0
+ Identities = 367/367 (100%), Gaps = 0/367 (0%)
+ Strand=Plus/Plus
+
+Query  1    GCACACTACGGTCCATCTCCAACAACCGCAGTGTTGCCAGTGACCGTGATCAGAAATTTG  60
+            ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+Sbjct  1    GCACACTACGGTCCATCTCCAACAACCGCAGTGTTGCCAGTGACCGTGATCAGAAATTTG  60
+
+Query  61   CAGAGCGGGATGGATGTGTACCTGTGTTTCAAGTGAGACCAACTGCACCACCCACCCCAT  120
+            ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+Sbjct  61   CAGAGCGGGATGGATGTGTACCTGTGTTTCAAGTGAGACCAACTGCACCACCCACCCCAT  120
+
+Query  121  CATCTCGACCACCACGGATTGAAGAATCAGTCATTAAAATTGACCTGTTCAGGAATAGAT  180
+            ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+Sbjct  121  CATCTCGACCACCACGGATTGAAGAATCAGTCATTAAAATTGACCTGTTCAGGAATAGAT  180
+
+Query  181  ATCCAGCATGGGAGAGACATGTGTTAGATCGAAGCCTGAGAAAGGCCATTTTAGCCTTTG  240
+            ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+Sbjct  181  ATCCAGCATGGGAGAGACATGTGTTAGATCGAAGCCTGAGAAAGGCCATTTTAGCCTTTG  240
+
+Query  241  AATGTTCCCCATCTCCTCCAAGGCTGCAGTACAAGGATGATGCCCTTATTCAGGAGAGGC  300
+            ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+Sbjct  241  AATGTTCCCCATCTCCTCCAAGGCTGCAGTACAAGGATGATGCCCTTATTCAGGAGAGGC  300
+
+Query  301  TGGAATATGAAACCACTTTATAAAATACAAGGAGCCGCAATGTCCACATGAAGGGGTAAC  360
+            ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+Sbjct  301  TGGAATATGAAACCACTTTATAAAATACAAGGAGCCGCAATGTCCACATGAAGGGGTAAC  360
+
+Query  361  AGCAGGG  367
+            |||||||
+Sbjct  361  AGCAGGG  367
+
+
+>GlncRNA0029094 
+Length=617
+
+ Score = 37.4 bits (40),  Expect = 0.35
+ Identities = 22/23 (96%), Gaps = 0/23 (0%)
+ Strand=Plus/Minus
+
+Query  243  TGTTCCCCATCTCCTCCAAGGCT  265
+            ||||| |||||||||||||||||
+Sbjct  38   TGTTCTCCATCTCCTCCAAGGCT  16
+
+
+>GlncRNA0029093 
+Length=627
+
+ Score = 37.4 bits (40),  Expect = 0.35
+ Identities = 22/23 (96%), Gaps = 0/23 (0%)
+ Strand=Plus/Minus
+
+Query  243  TGTTCCCCATCTCCTCCAAGGCT  265
+            ||||| |||||||||||||||||
+Sbjct  253  TGTTCTCCATCTCCTCCAAGGCT  231
+
+
+
+Lambda      K        H
+   0.634    0.408    0.912 
+
+Gapped
+Lambda      K        H
+   0.625    0.410    0.780 
+
+Effective search space used: 60607599720
+
+
+  Database: /Users/xiaosizhe/Downloads/Annotated_lncRNA.fasta
+    Posted date:  Mar 5, 2015  11:38 AM
+  Number of letters in database: 181,954,928
+  Number of sequences in database:  113,266
+
+
+
+Matrix: blastn matrix 2 -3
+Gap Penalties: Existence: 5, Extension: 2
+33
