@@ -17,7 +17,7 @@
             </td>
         </tr>
         <tr>
-            <td><?php echo $form->label($model,'sscagelncrna_id'); ?> <br/><span style="font-size:10px;">E.g. SA00155n</span><br/>   
+            <td><?php echo $form->label($model,'sscagelncrna_id'); ?> <br/><span style="font-size:10px;">E.g. SA00001a</span><br/>   
 		<span style="font-size:12px;"></span><?php echo $form->textField($model,'sscagelncrna_id',array('size'=>14,'maxlength'=>14)); ?>        
             </td>        
             <td><?php echo $form->label($model,'ensembltranscript_id'); ?> <br/><span style="font-size:10px;">E.g. ENSMUST00000131759</span><br/>   

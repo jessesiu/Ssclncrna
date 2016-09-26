@@ -17,8 +17,7 @@ class SslncrnaController extends Controller
         
       
          if(isset($_GET["GenomicInfo"])){
-                       
-			$model->attributes=$_GET["GenomicInfo"]; 
+                        //$model->attributes=$_GET["GenomicInfo"]; 
                         //$model->transRegulations=$_GET["TransRegulation"];
                        // $model->blast= $_GET["Glncrna"]["blast"];
                        // $model->blastnum= $_GET["Glncrna"]["blastnum"];

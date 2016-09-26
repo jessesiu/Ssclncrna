@@ -107,6 +107,27 @@ class GenomicInfo extends CActiveRecord
         
         
     }
+    
+    public function getgenesymbol(){
+        
+         $ret = "";
+        $first = true;
+
+    foreach ($this->transRegulations as $record) {
+
+        if ($first === true) {
+            $first = false;
+        } else {
+            $ret .= ', ';
+        }
+
+        $ret .= $record->coding_gene_symbol;
+    }
+
+    return $ret;  
+        
+        
+    }
     /**
      * @return array customized attribute labels (name=>label)
      */
@@ -161,8 +182,13 @@ class GenomicInfo extends CActiveRecord
         }
         
         else{   
+        if (isset($_GET['GenomicInfo']['sscagelncrna_id'])&& !empty($_GET['GenomicInfo']['sscagelncrna_id']))   {
             
-        if (isset($_GET['GenomicInfo']['coding_gene_refseq_id'])){
+        $this->sscagelncrna_id=$_GET['GenomicInfo']['sscagelncrna_id'];
+            
+        }
+            
+        if (isset($_GET['GenomicInfo']['coding_gene_refseq_id']) && !empty($_GET['GenomicInfo']['coding_gene_refseq_id'])){
         $model1 = TransRegulation::model()->findByAttributes(array('coding_gene_refseq_id'=>$_GET['GenomicInfo']['coding_gene_refseq_id']));
         $this->sscagelncrna_id=$model1->sscagelncrna_id;
         }
@@ -197,7 +223,7 @@ class GenomicInfo extends CActiveRecord
         $criteria->compare('secondary_structure',$this->secondary_structure,true);
        
         }
-        echo $this->transRegulations->coding_gene_refseq_id;
+      
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
             'pagination' => array(

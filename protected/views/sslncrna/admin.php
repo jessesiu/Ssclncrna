@@ -70,6 +70,7 @@ $this->widget('CTabView', array(
 <?php $this->widget('application.extensions.EExcelView', array(
         'id'=>'glncrna-grid',
         'dataProvider'=>$model->search(),
+        //'filter'=>$model,
         'exportType'=>'csv',
         'filename'=>'/var/www/html/glncrna/bedfiles/csvtab.txt',
         'stream'=>false,
@@ -83,7 +84,7 @@ $this->widget('CTabView', array(
                 'value'=>'CHtml::link($data->sscagelncrna_id, "http://genome.ucsc.edu/cgi-bin/hgTracks?org=human&hgt.customText=http://gb.cbiit.cuhk.edu.hk/test/test.bed&position=chr22")',
                // 'value'=>'CHtml::link($data->glncrna_id, array("ucscview","glncrna_id"=>$data->glncrna_id),array("target"=>"_blank"))',
              ), 
-            array(
+           array(
                 'name'=>'chromsome',
                 'visible'=>true,
                 'type'=>'raw',
@@ -97,9 +98,14 @@ $this->widget('CTabView', array(
                 'value'=>'$data->getrefseq()',
                 
             ),
-         
-        
-        )
+           array(
+                'name'=>'coding_gene_symbol',
+                'visible'=>true,
+                'type'=>'raw',
+                'value'=>'$data->getgenesymbol()',
+                
+            ),
+)
 )); 
 ?>
 
