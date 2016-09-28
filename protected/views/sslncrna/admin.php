@@ -56,7 +56,8 @@ $this->widget('CTabView', array(
             'view'=>'custom',
             'data'=>array('model'=>$model, 
                             'columns'=>$columns),
-            ),                       
+            ),    
+        /*
         'tab3'=>array(
             'title'=>'3. Export to Galaxy',
             'view'=>'galaxy',
@@ -105,8 +106,28 @@ $this->widget('CTabView', array(
                 'value'=>'$data->getgenesymbol()',
                 
             ),
+           array(
+                'name'=>'number_of_exons',
+                'visible'=>true,
+                'type'=>'raw',   
+            ),
+           array(
+                'name'=>'size_of_exons',
+                'visible'=>true,
+                'type'=>'raw',   
+            ),
 )
 )); 
 ?>
+
+<script type="text/javascript">
+    $(".js-desc").click(function(e) {
+        e.preventDefault();
+        id = $(this).attr('data');
+        $(this).hide();
+        $('.js-short-'+id).toggle();
+        $('.js-long-'+id).toggle();
+    });
+</script>
 
 

@@ -40,6 +40,10 @@ class GenomicInfo extends CActiveRecord
     public $coding_gene_refseq_id;
     public $transRegulation_search;
     public $coding_gene_symbol;
+    public $polya_testis;
+    public $dhs;
+    public $cage;
+    public $conserved_elements;
     /**
      * @return string the associated database table name
      */
@@ -91,11 +95,30 @@ class GenomicInfo extends CActiveRecord
         
         $ret = "";
         $first = true;
+        $second = true;
+        $num= count($this->transRegulations);
+        $short="";
+        $flag=0;
+        
+        foreach ($this->transRegulations as $record) {
+            if($flag>=5)
+            {
+                break;
+            }
+        if ($first === true) {
+            $first = false;
+        } else {
+            $short .= ', ';
+        }
+
+        $short .= $record->coding_gene_refseq_id;
+        $flag++;
+    }
 
     foreach ($this->transRegulations as $record) {
 
-        if ($first === true) {
-            $first = false;
+        if ($second === true) {
+            $second = false;
         } else {
             $ret .= ', ';
         }
@@ -103,8 +126,19 @@ class GenomicInfo extends CActiveRecord
         $ret .= $record->coding_gene_refseq_id;
     }
 
-    return $ret;
-        
+    if($num>5)
+    {
+          return <<<HTML
+		<span class="js-short-$this->id">$short</span>
+        		<span class="js-long-$this->id" style="display: none;">$ret</span>
+                <a href='#' class='js-desc' data='$this->id'>+</a>
+HTML;
+    }else
+    {
+        return <<<HTML
+        		<span class="js-long-$this->id">$ret</span>
+HTML;
+    }
         
     }
     
@@ -153,8 +187,36 @@ class GenomicInfo extends CActiveRecord
             'lncrna_type' => 'Lncrna Type',
             'coding_potential' => 'Coding Potential',
             'secondary_structure' => 'Secondary Structure',
+            'polya_testis'=>'Poly A',
+            'cage'=>'CAGE',
+            'dhs'=>'DHS',
+            'conserved_elements'=>'Conserved element'
         );
     }
+    
+    
+    public function attributeLabels_selected(array $columns){
+            
+            $columns_selected =array();
+            if (in_array('sscagelncrna_id',$columns)) array_push($columns_selected,'GlncRNA');
+            if (in_array('ensembl',$columns)) array_push($columns_selected,'Ensembl'); 
+            if (in_array('noncode',$columns)) array_push($columns_selected,'NONCODE');                   
+            if (in_array('ucsc',$columns)) array_push($columns_selected,'UCSC Genes');
+            if (in_array('frnadb',$columns)) array_push($columns_selected,'fRNAdb');
+            if (in_array('refseq',$columns)) array_push($columns_selected,'RefSeq');   
+            
+            
+            
+             return $columns_selected;
+            
+            
+            
+            
+            
+        }
+    
+    
+    
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
@@ -172,9 +234,11 @@ class GenomicInfo extends CActiveRecord
     {
         // @todo Please modify the following code to remove attributes that should not be searched.
 
-        
+       // $conditions=array();
+        //$conditions[] ="1=1";
         $criteria=new CDbCriteria;
-                
+        $criteria->join ="LEFT JOIN regulatory_features on regulatory_features.sscagelncrna_id=t.sscagelncrna_id";        
+      
       
         if (!isset($_GET['GenomicInfo'])){
                     //show empty data at the beginning
@@ -187,6 +251,42 @@ class GenomicInfo extends CActiveRecord
         $this->sscagelncrna_id=$_GET['GenomicInfo']['sscagelncrna_id'];
             
         }
+        if (isset($_GET['GenomicInfo']['chromsome'])&& !empty($_GET['GenomicInfo']['chromsome']))   {
+            
+        $this->chromsome=$_GET['GenomicInfo']['chromsome'];
+            
+        }
+        if (isset($_GET['GenomicInfo']['number_of_exons'])&& !empty($_GET['GenomicInfo']['number_of_exons']))   {
+            
+        $this->number_of_exons=$_GET['GenomicInfo']['number_of_exons'];
+            
+        }
+        if (isset($_GET['GenomicInfo']['genomicfeature'])&& !empty($_GET['GenomicInfo']['genomicfeature']))   {
+            
+        $this->genomicfeature=$_GET['GenomicInfo']['genomicfeature'];
+            
+        }
+        if (isset($_GET['GenomicInfo']['lncrna_type'])&& !empty($_GET['GenomicInfo']['lncrna_type']))   {
+            
+        $this->lncrna_type=$_GET['GenomicInfo']['lncrna_type'];
+            
+        }
+        if (isset($_GET['GenomicInfo']['gc_content'])&& !empty($_GET['GenomicInfo']['gc_content']))   {
+            
+         $this->gc_content=$_GET['GenomicInfo']['gc_content'];
+         $gc_content_operator = $_GET['gc_content_operator'];
+         $criteria->compare('gc_content',$gc_content_operator.''.$this->gc_content);
+            
+        }
+        
+        if (isset($_GET['GenomicInfo']['coding_potential'])&& !empty($_GET['GenomicInfo']['coding_potential']))   {
+            
+         $this->coding_potential=$_GET['GenomicInfo']['coding_potential'];
+         $coding_potential_operator = $_GET['coding_potential_operator'];
+         $criteria->compare('coding_potential',$coding_potential_operator.''.$this->coding_potential);
+            
+        }
+        
             
         if (isset($_GET['GenomicInfo']['coding_gene_refseq_id']) && !empty($_GET['GenomicInfo']['coding_gene_refseq_id'])){
         $model1 = TransRegulation::model()->findByAttributes(array('coding_gene_refseq_id'=>$_GET['GenomicInfo']['coding_gene_refseq_id']));
@@ -204,23 +304,53 @@ class GenomicInfo extends CActiveRecord
         $criteria->addInCondition('sscagelncrna_id', $ids);
         }
         
+        if (isset($_GET['GenomicInfo']['polya_testis']) && !empty($_GET['GenomicInfo']['polya_testis'])){
+        $polya_testis=    $_GET['GenomicInfo']['polya_testis'];
+        //$conditions[]= "regulatory_features.polya_testis = :polya_testis ";
+        $criteria->compare('regulatory_features.polya_testis',$polya_testis,true);
+       // $criteria->params = array(":polya_testis" => $polya_testis);
+       // $criteria->params = array(":polya_testis" => $polya_testis);    
+        
+        }
+        
+        if (isset($_GET['GenomicInfo']['dhs']) && !empty($_GET['GenomicInfo']['dhs'])){
+        $dhs=$_GET['GenomicInfo']['dhs'];
+        $criteria->compare('regulatory_features.dhs',$dhs,true);
+         
+        }
+      
+        if (isset($_GET['GenomicInfo']['cage']) && !empty($_GET['GenomicInfo']['cage'])){
+        $cage=$_GET['GenomicInfo']['cage'];
+        $criteria->compare('regulatory_features.cage',$cage,true);
+        }
+        
+        
+        if (isset($_GET['GenomicInfo']['conserved_elements']) && !empty($_GET['GenomicInfo']['conserved_elements'])){
+          $conserved_elements=$_GET['GenomicInfo']['conserved_elements'];
+          $criteria->compare('regulatory_features.conserved_elements',$conserved_elements,true);
+        }
+        
+        
+        print_r($conditions);
         $criteria->compare('id',$this->id);
-        $criteria->compare('sscagelncrna_id',$this->sscagelncrna_id,true);
+        $criteria->compare('t.sscagelncrna_id',$this->sscagelncrna_id,true);
         $criteria->compare('ensembltranscript_id',$this->ensembltranscript_id,true);
         $criteria->compare('ensemblgene_id',$this->ensemblgene_id,true);
-        $criteria->compare('chromsome',$this->chromsome,true);
+        $criteria->compare('t.chromsome',$this->chromsome);
         $criteria->compare('transcription_start',$this->transcription_start);
         $criteria->compare('transcription_end',$this->transcription_end);
         $criteria->compare('strand',$this->strand,true);
         $criteria->compare('transcript_length',$this->transcript_length);
-        $criteria->compare('gc_content',$this->gc_content);
+       
         $criteria->compare('number_of_exons',$this->number_of_exons);
         $criteria->compare('size_of_exons',$this->size_of_exons,true);
         $criteria->compare('start_position_of_exons',$this->start_position_of_exons,true);
         $criteria->compare('genomicfeature',$this->genomicfeature,true);
         $criteria->compare('lncrna_type',$this->lncrna_type,true);
-        $criteria->compare('coding_potential',$this->coding_potential);
+        
         $criteria->compare('secondary_structure',$this->secondary_structure,true);
+       // $criteria->addCondition=implode($conditions,'AND');
+       print_r( $criteria);
        
         }
       

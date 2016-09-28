@@ -29,8 +29,60 @@
             <td><?php echo $form->label($model,'coding_gene_symbol'); ?> <br/><span style="font-size:10px;">E.g. 0610010B08Rik</span><br/>   
                 <span style="font-size:12px;"></span><?php echo $form->textField($model,'coding_gene_symbol',array('size'=>18,'maxlength'=>18)); ?>
             </td>
+            <td>
+                <?php echo $form->label($model,'chromsome'); ?><br/>
+                <?php echo $form->dropDownList($model,'chromsome',
+                            array('','chr1'=>'chr1','chr1_random'=>'chr1_random','chr2'=>'chr2',
+                                'chr3'=>'chr3','chr4'=>'chr4','chr5'=>'chr5','chr6'=>'chr6','chr7'=>'chr7',
+                                'chr8'=>'chr8','chr8_random'=>'chr8_random','chr9'=>'chr9','chr9_random'=>'chr9_random',
+                                'chr10'=>'chr10','chr11'=>'chr11','chr12'=>'chr12','chr13'=>'chr13','chr13_random'=>'chr13_random',
+                                'chr14'=>'chr14','chr15'=>'chr15','chr16'=>'chr16','chr17'=>'chr17','chr17_random'=>'chr17_random',
+                                'chr18'=>'chr18','chr19'=>'chr19','chrM'=>'chrM','chrUn_random'=>'chrUn_random',
+                                'chrX'=>'chrX','chrX_random'=>'chrX_random','chrY'=>'chrY','chrY_random'=>'chrY_random')); ?>
+
+            </td>
+            
+            
 
         </tr>
+        <tr>
+            <td>
+            <?php echo $form->label($model,'number_of_exons'); ?> <br/>
+                <?php echo $form->dropDownList($model,'number_of_exons',
+                            array('','1'=>'1','2'=>'2','3'=>'3',
+                                '4'=>'4','5'=>'5','6'=>'6','7'=>'7','8'=>'8',
+                                '9'=>'9','10'=>'10')); ?>
+            </td>
+            <td>
+            <?php echo $form->label($model,'genomicfeature'); ?> <br/>
+                <?php echo $form->dropDownList($model,'genomicfeature',
+                            array('','Intergenic'=>'Intergenic','Exonic'=>'Exonic','Intronic'=>'Intronic',
+                                'Sense'=>'Sense','Antisense'=>'Antisense'
+                                )); ?>
+            </td>
+            <td>
+            <?php echo $form->label($model,'lncrna_type'); ?> <br/>
+                <?php echo $form->dropDownList($model,'lncrna_type',
+                            array('','Annotated'=>'Annotated','Novel'=>'Novel','Circular'=>'Circular'                           
+                                )); ?>
+            </td>
+            <td>
+            <?php echo $form->label($model,'gc_content'); ?> <br/>
+               <select id="mn_operator" name="gc_content_operator">
+                    <option value=">=">&GreaterFullEqual;</option>
+                    <option value="<=">&LessFullEqual;</option>                
+                </select>
+             <?php echo $form->textField($model,'gc_content',array('size'=>3,'maxlength'=>3)).'%'; ?>  
+            </td>
+            <td>
+            <?php echo $form->label($model,'coding_potential'); ?> <br/>
+            <select id="mn_operator" name="coding_potential_operator">
+                    <option value=">=">&GreaterFullEqual;</option>
+                    <option value="<=">&LessFullEqual;</option>                
+                </select>
+             <?php echo $form->textField($model,'coding_potential',array('size'=>5,'maxlength'=>5)); ?>    
+            </td>
+        </tr>    
         <tr>
             <td colspan="14" align="center">
             <div class="divider">
@@ -45,35 +97,23 @@
         <tr>
             <td>
             <?php echo $form->label($model,'polya_testis'); ?>  <br/>
-                <select id="annotated_or_novel_select" name="polya_testis_select">
-                    <option></option>
-                    <option value='TRUE'>TRUE</option>
-                    <option value='FALSE'>FALSE</option>                
-                </select>    
+               <?php echo $form->dropDownList($model,'polya_testis',
+                            array('','TRUE'=>'TRUE','FALSE'=>'FALSE')); ?> 
             </td>
             <td>
             <?php echo $form->label($model,'dhs'); ?>  <br/>
-                <select id="annotated_or_novel_select" name="dhs_select">
-                    <option></option>
-                    <option value='TRUE'>TRUE</option>
-                    <option value='FALSE'>FALSE</option>                
-                </select>    
+                <?php echo $form->dropDownList($model,'dhs',
+                            array('','TRUE'=>'TRUE','FALSE'=>'FALSE')); ?>   
             </td>
             <td>
             <?php echo $form->label($model,'cage'); ?>  <br/>
-                <select id="annotated_or_novel_select" name="cage_select">
-                    <option></option>
-                    <option value='TRUE'>TRUE</option>
-                    <option value='FALSE'>FALSE</option>                
-                </select>    
+                <?php echo $form->dropDownList($model,'cage',
+                            array('','TRUE'=>'TRUE','FALSE'=>'FALSE')); ?> 
             </td>
              <td>
             <?php echo $form->label($model,'conserved_elements'); ?>  <br/>
-                <select id="annotated_or_novel_select" name="conserved_elements_select">
-                    <option></option>
-                    <option value='TRUE'>TRUE</option>
-                    <option value='FALSE'>FALSE</option>                
-                </select>    
+                <?php echo $form->dropDownList($model,'conserved_elements',
+                            array('','TRUE'=>'TRUE','FALSE'=>'FALSE')); ?>   
             </td>
         </tr>
         <tr>
