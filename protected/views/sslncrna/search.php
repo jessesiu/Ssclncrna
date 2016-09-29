@@ -128,7 +128,69 @@
             </td>
         </tr>
         <tr>
+           <table><tr>
+        <td>                
+            <fieldset style="margin:20px 20px;">
+                    <legend>Histone Modification</legend>
+                   
+            <?php echo $form->label($model,'emodification1'); ?>  <br/>
+                <?php echo $form->dropDownList($model,'emodification1',
+                            array('','H3K4me3'=>'H3K4me3','H3K27me3'=>'H3K27me3','5hmC'=>'5hmC','5mC'=>'5mC')); ?>   
+                             
+                <br/>
+                 <?php echo $form->label($model,'agegroup1'); ?>  <br/>
+                <?php echo $form->dropDownList($model,'agegroup1',
+                            array('','Neonatal'=>'Neonatal','Adult'=>'Adult','Old adult'=>'Old adult')); ?>             
+                <br/>
+                  <?php echo $form->label($model,'celltype1'); ?>  <br/>
+                <?php echo $form->dropDownList($model,'celltype1',
+                            array('','Kit-'=>'Kit-','Kit+'=>'Kit+')); ?>             
+                <br/>
+                <?php echo 'Value'; ?>
+                <br/>
+                <select id="e_value1_operator" name="e_value1_operator">
+                    <option value=">=">&GreaterFullEqual;</option>
+                    <option value="<=">&LessFullEqual;</option>                
+                </select>
+                 <?php echo $form->textField($model,'e_value1',array('size'=>6,'maxlength'=>6)); ?>  
+                
+                
+            </fieldset>
+            </td>
+            <td width="5%">
+                 <select id="e_compare_operator" name="e_compare_operator">
+                    <option value="AND">AND</option>
+                    <option value="OR">OR</option>                
+                </select>
+            </td>
+            <td>
+                <fieldset style="margin:20px 20px;">
+                    <legend>HMC Modification</legend>
+                    <?php echo $form->label($model,'emodification2'); ?>  <br/>
+                <?php echo $form->dropDownList($model,'emodification2',
+                            array('','Promoter'=>'Promoter','Gene body'=>'Gene body')); ?>   
+                             
+                <br/>
+                 <?php echo $form->label($model,'agegroup2'); ?>  <br/>
+                <?php echo $form->dropDownList($model,'agegroup2',
+                            array('','Neonatal'=>'Neonatal','Adult'=>'Adult','Old adult'=>'Old adult')); ?>             
+                <br/>
+                  <?php echo $form->label($model,'celltype2'); ?>  <br/>
+                <?php echo $form->dropDownList($model,'celltype2',
+                            array('','Kit-'=>'Kit-','Kit+'=>'Kit+')); ?>             
+                <br/>
+                <?php echo 'Value'; ?>
+                <br/>
+                <select id="e_value1_operator" name="e_value2_operator">
+                    <option value=">=">&GreaterFullEqual;</option>
+                    <option value="<=">&LessFullEqual;</option>                
+                </select>
+                 <?php echo $form->textField($model,'e_value2',array('size'=>6,'maxlength'=>6)); ?>  
+                                       
+                </fieldset>
+        </td>
         </tr>
+        </table>
         <tr>
             <td colspan="9" align="center">
             <div class="divider">
