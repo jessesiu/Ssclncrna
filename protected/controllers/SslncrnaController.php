@@ -24,7 +24,7 @@ class SslncrnaController extends Controller
                                
                         //var_dump($_GET["Glncrna"]);
                         //print_r ($model->attributes);
-                        print_r($model);
+                       // print_r($model);
                      
                 }
         $columns=array_keys(array(             

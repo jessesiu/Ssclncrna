@@ -128,68 +128,78 @@
             </td>
         </tr>
         <tr>
-           <table><tr>
-        <td>                
-            <fieldset style="margin:20px 20px;">
-                    <legend>Histone Modification</legend>
-                   
-            <?php echo $form->label($model,'emodification1'); ?>  <br/>
-                <?php echo $form->dropDownList($model,'emodification1',
-                            array('','H3K4me3'=>'H3K4me3','H3K27me3'=>'H3K27me3','5hmC'=>'5hmC','5mC'=>'5mC')); ?>   
-                             
-                <br/>
-                 <?php echo $form->label($model,'agegroup1'); ?>  <br/>
-                <?php echo $form->dropDownList($model,'agegroup1',
-                            array('','Neonatal'=>'Neonatal','Adult'=>'Adult','Old adult'=>'Old adult')); ?>             
-                <br/>
-                  <?php echo $form->label($model,'celltype1'); ?>  <br/>
-                <?php echo $form->dropDownList($model,'celltype1',
-                            array('','Kit-'=>'Kit-','Kit+'=>'Kit+')); ?>             
-                <br/>
-                <?php echo 'Value'; ?>
-                <br/>
-                <select id="e_value1_operator" name="e_value1_operator">
-                    <option value=">=">&GreaterFullEqual;</option>
-                    <option value="<=">&LessFullEqual;</option>                
-                </select>
-                 <?php echo $form->textField($model,'e_value1',array('size'=>6,'maxlength'=>6)); ?>  
-                
-                
-            </fieldset>
-            </td>
-            <td width="5%">
-                 <select id="e_compare_operator" name="e_compare_operator">
-                    <option value="AND">AND</option>
-                    <option value="OR">OR</option>                
-                </select>
-            </td>
-            <td>
-                <fieldset style="margin:20px 20px;">
-                    <legend>HMC Modification</legend>
-                    <?php echo $form->label($model,'emodification2'); ?>  <br/>
-                <?php echo $form->dropDownList($model,'emodification2',
-                            array('','Promoter'=>'Promoter','Gene body'=>'Gene body')); ?>   
-                             
-                <br/>
-                 <?php echo $form->label($model,'agegroup2'); ?>  <br/>
-                <?php echo $form->dropDownList($model,'agegroup2',
-                            array('','Neonatal'=>'Neonatal','Adult'=>'Adult','Old adult'=>'Old adult')); ?>             
-                <br/>
-                  <?php echo $form->label($model,'celltype2'); ?>  <br/>
-                <?php echo $form->dropDownList($model,'celltype2',
-                            array('','Kit-'=>'Kit-','Kit+'=>'Kit+')); ?>             
-                <br/>
-                <?php echo 'Value'; ?>
-                <br/>
-                <select id="e_value1_operator" name="e_value2_operator">
-                    <option value=">=">&GreaterFullEqual;</option>
-                    <option value="<=">&LessFullEqual;</option>                
-                </select>
-                 <?php echo $form->textField($model,'e_value2',array('size'=>6,'maxlength'=>6)); ?>  
-                                       
-                </fieldset>
-        </td>
-        </tr>
+         <table class="form-table" id="customFields">
+	<tr valign="top">
+		<td scope="row" width="15%"><label for="customFieldName">Histone Modifications</label></td>
+		<td>
+                        <select id="customFieldName" name="customFieldName[]">
+                                <option selected="selected"></option>
+                                <option value="h3k4me3_6d_kit_minus">H3K4me3    Neonatal    Kit-</option>
+                                <option value="h3k4me3_6d_kit_add">H3K4me3    Neonatal    Kit+</option>
+                                <option value="h3k4me3_8m_kit_minus">H3K4me3    Adult    Kit-</option>
+                                <option value="h3k4me3_8m_kit_add">H3K4me3    Adult    Kit+</option>
+                                <option value="h3k4me3_15m_kit_minus">H3K4me3    Old Adult    Kit-</option>
+                                <option value="h3k4me3_15m_kit_add">H3K4me3    Old Adult    Kit+</option>
+                                <option value="h3k27me3_6d_kit_minus">H3K27me3    Neonatal    Kit-</option>
+                                <option value="h3k27me3_6d_kit_add">H3K27me3    Neonatal    Kit+</option>
+                                <option value="h3k27me3_8m_kit_minus">H3K27me3    Adult    Kit-</option>
+                                <option value="h3k27me3_8m_kit_add">H3K27me3    Adult    Kit+</option>
+                                <option value="h3k27me3_15m_kit_minus">H3K27me3    Old Adult    Kit-</option>
+                                <option value="h3k27me3_15m_kit_add">H3K27me3    Old Adult    Kit+</option>
+                        </select>&nbsp;
+                       
+                        
+                        <select id="customFieldopera" name="customFieldopera[]">
+                             <option selected="selected" value=">=">&GreaterFullEqual;</option>
+                             <option value="<=">&LessFullEqual;</option>            
+                        </select>&nbsp;
+			<input type="text" class="code" id="customFieldValue" name="customFieldValue[]" value="" placeholder="Input Value" /> &nbsp;
+			<a href="javascript:void(0);" class="addCF">Add</a>
+		</td>
+	</tr>
+        </table>
+        
+               <table class="form-table" id="customFields1">
+	<tr valign="top">
+		<td scope="row" width="15%"><label for="customFieldName1">5mC/5hmC Modifications</label></td>
+		<td>
+                        <select id="customFieldName1" name="customFieldName1[]">
+                                <option selected="selected"></option>
+                                <option value="hmc.promoter_6d_kit_minus">5hmC    Neonatal    Kit-   Promoter</option>
+                                <option value="hmc.promoter_6d_kit_add">5hmC    Neonatal    Kit+    Promoter</option>
+                                <option value="hmc.promoter_8m_kit_minus">5hmC    Adult    Kit-      Promoter</option>
+                                <option value="hmc.promoter_8m_kit_add">5hmC    Adult    Kit+     Promoter</option>
+                                <option value="hmc.promoter_15m_kit_minus">5hmC    Old Adult    Kit-    Promoter</option>
+                                <option value="hmc.promoter_15m_kit_add">5hmC    Old Adult    Kit+    Promoter</option>
+                                <option value="hmc.gene_body_6d_kit_minus">5hmC    Neonatal    Kit-      Gene body</option>
+                                <option value="hmc.gene_body_6d_kit_add">5hmC    Neonatal    Kit+     Gene body</option>
+                                <option value="hmc.gene_body_8m_kit_minus">5hmC    Adult    Kit-     Gene body</option>
+                                <option value="hmc.gene_body_8m_kit_add">5hmC    Adult    Kit+      Gene body</option>
+                                <option value="hmc.gene_body_15m_kit_minus">5hmC    Old Adult    Kit-      Gene body</option>
+                                <option value="hmc.gene_body_15m_kit_add">5hmC    Old Adult    Kit+     Gene body</option>
+                                <option value="mc.promoter_6d_kit_minus">5mC    Neonatal    Kit-   Promoter</option>
+                                <option value="mc.promoter_6d_kit_add">5mC    Neonatal    Kit+    Promoter</option>
+                                <option value="mc.promoter_8m_kit_minus">5mC    Adult    Kit-      Promoter</option>
+                                <option value="mc.promoter_8m_kit_add">5mC    Adult    Kit+     Promoter</option>
+                                <option value="mc.promoter_15m_kit_minus">5mC    Old Adult    Kit-    Promoter</option>
+                                <option value="mc.promoter_15m_kit_add">5mC    Old Adult    Kit+    Promoter</option>
+                                <option value="mc.gene_body_6d_kit_minus">5mC    Neonatal    Kit-      Gene body</option>
+                                <option value="mc.gene_body_6d_kit_add">5mC    Neonatal    Kit+     Gene body</option>
+                                <option value="mc.gene_body_8m_kit_minus">5mC    Adult    Kit-     Gene body</option>
+                                <option value="mc.gene_body_8m_kit_add">5mC    Adult    Kit+      Gene body</option>
+                                <option value="mc.gene_body_15m_kit_minus">5mC    Old Adult    Kit-      Gene body</option>
+                                <option value="mc.gene_body_15m_kit_add">5mC    Old Adult    Kit+     Gene body</option>
+                        </select>&nbsp;
+                       
+                        
+                        <select id="customFieldopera1" name="customFieldopera1[]">
+                             <option selected="selected" value=">=">&GreaterFullEqual;</option>
+                             <option value="<=">&LessFullEqual;</option>            
+                        </select>&nbsp;
+			<input type="text" class="code" id="customFieldValue1" name="customFieldValue1[]" value="" placeholder="Input Value" /> &nbsp;
+			<a href="javascript:void(0);" class="addCF1">Add</a>
+		</td>
+	</tr>
         </table>
         <tr>
             <td colspan="9" align="center">
@@ -203,8 +213,80 @@
             </td>
         </tr>
         <tr>
-    
-    <tr>
+              <table class="form-table" id="customFields2">
+	<tr valign="top">
+		<td scope="row" width="15%"><label for="customFieldName2">Expression</label></td>
+		<td>
+                        <select id="customFieldName1" name="customFieldName2[]">
+                                <option selected="selected"></option>
+                                <option value="rnaseq_6d_kit_minus">RNASEQ    Neonatal    Kit-   Promoter</option>
+                                <option value="rnaseq_6d_kit_add">RNASEQ     Neonatal    Kit+    Promoter</option>
+                                <option value="rnaseq_8m_kit_minus">RNASEQ     Adult    Kit-      Promoter</option>
+                                <option value="rnaseq_8m_kit_add">RNASEQ     Adult    Kit+     Promoter</option>
+                                <option value="rnaseq_15m_kit_minus">RNASEQ     Old Adult    Kit-    Promoter</option>
+                                <option value="rnaseq_15m_kit_add">RNASEQ     Old Adult    Kit+    Promoter</option>
+                        </select>&nbsp;
+                       
+                        
+                        <select id="customFieldopera1" name="customFieldopera2[]">
+                             <option selected="selected" value=">=">&GreaterFullEqual;</option>
+                             <option value="<=">&LessFullEqual;</option>            
+                        </select>&nbsp;
+			<input type="text" class="code" id="customFieldValue2" name="customFieldValue2[]" value="" placeholder="Input Value" /> &nbsp;
+			<a href="javascript:void(0);" class="addCF2">Add</a>
+		</td>
+	</tr>
+        </table>
+               <table>
+                   <tr>
+                       <td width="195">
+                           <label>Expression Specificity</label>
+                       </td>
+                       <td width="100">
+            <?php echo "Age Group" ?>  <br/>
+             <select id="customFieldage" name="customFieldage">
+                                <option selected="selected"></option>
+                                <option value="Neonatal">Neonatal</option>
+                                <option value="Young adult">Young adult</option>
+                                <option value="Old adult">Old adult</option>
+                        </select>
+            </td>
+                    <td>
+            <?php echo "Cell Type"; ?>  <br/>
+                <select id="customFieldcelltype" name="customFieldcelltype">
+                                <option selected="selected"></option>
+                                <option value="Kit-">Kit-</option>
+                                <option value="Kit+">Kit+</option>
+                        </select>
+            </td>
+                   </tr>        
+               </table>
+         <tr>
+            <td colspan="9" align="center">
+            <div class="divider">
+                <h4>Predicted Functionality
+                <a href="<?php echo Yii::app()->getHomeUrl(); ?>/site/page/view/glossary" target="_blank">
+                    <img src="<?php echo Yii::app()->request->baseUrl; ?>/images/help.png"  height="20" width="20"></img>
+                </a>
+                </h4>
+            </div>  
+            </td>
+        </tr>
+           <table>
+                   <tr>
+                     <td><?php echo $form->label($model,'small_rna'); ?> <br/><span style="font-size:10px;">E.g. Mir669a-1</span><br/>   
+                <span style="font-size:12px;"></span><?php echo $form->textField($model,'small_rna',array('size'=>18,'maxlength'=>18)); ?>
+            </td>
+              <td><?php echo $form->label($model,'gene_symbol'); ?> <br/><span style="font-size:10px;">E.g. Abhd1</span><br/>   
+                <span style="font-size:12px;"></span><?php echo $form->textField($model,'gene_symbol',array('size'=>18,'maxlength'=>18)); ?>
+            </td>
+              <td><?php echo $form->label($model,'ontology'); ?> <br/><span style="font-size:10px;">E.g. Wnt-protein binding</span><br/>   
+                <span style="font-size:12px;"></span><?php echo $form->textField($model,'ontology',array('size'=>100,'maxlength'=>100)); ?>
+            </td>
+                   </tr>        
+               </table>
+ 
+  <tr>
         <td colspan="9" align="center">
             <div class="divider">
                 <h4>Blast Search
@@ -262,7 +344,43 @@ stage and poly-A evidence in testis tissue
             	event.preventDefault();
         });
 
+        $(".addCF").click(function(){
+		$("#customFields").append('<tr valign="top"><th scope="row"><label for="customFieldName">Histone Modifications</label></th><td><select id="customFieldName" name="customFieldName[]"><option selected="selected"></option><option value="h3k4me3_6d_kit_minus">H3K4me3    Neonatal    Kit-</option><option value="h3k4me3_6d_kit_add">H3K4me3    Neonatal    Kit+</option><option value="h3k4me3_8m_kit_minus">H3K4me3    Adult    Kit-</option><option value="h3k4me3_8m_kit_add">H3K4me3    Adult    Kit+</option><option value="h3k4me3_15m_kit_minus">H3K4me3    Old Adult    Kit-</option><option value="h3k4me3_15m_kit_add">H3K4me3    Old Adult    Kit+</option><option value="h3k27me3_6d_kit_minus">H3K27me3    Neonatal    Kit-</option><option value="h3k27me3_6d_kit_add">H3K27me3    Neonatal    Kit+</option><option value="h3k27me3_8m_kit_minus">H3K27me3    Adult    Kit-</option><option value="h3k27me3_8m_kit_add">H3K27me3    Adult    Kit+</option><option value="h3k27me3_15m_kit_minus">H3K27me3    Old Adult    Kit-</option><option value="h3k27me3_15m_kit_add">H3K27me3    Old Adult    Kit+</option></select>&nbsp<select id="customFieldopera" name="customFieldopera[]"><option selected="selected" value=">=">&GreaterFullEqual;</option><option value="<=">&LessFullEqual;</option></select>&nbsp\n\
+         <input type="text" class="code" id="customFieldValue" name="customFieldValue[]" value="" placeholder="Input Value" /> &nbsp <a href="javascript:void(0);" class="remCF">Remove</a></td></tr>');
+	
+        
+        
+        });
+    $("#customFields").on('click','.remCF',function(){
+        $(this).parent().parent().remove();
+    });
+    
+    
+     $(".addCF1").click(function(){
+		$("#customFields1").append('<tr valign="top"><th scope="row"><label for="customFieldName1">5mC/5hmC Modifications</label></th><td><select id="customFieldName1" name="customFieldName1[]"><option selected="selected"></option><option value="hmc.promoter_6d_kit_minus">5hmC    Neonatal    Kit-   Promoter</option><option value="hmc.promoter_6d_kit_add">5hmC    Neonatal    Kit+    Promoter</option><option value="hmc.promoter_8m_kit_minus">5hmC    Adult    Kit-      Promoter</option><option value="hmc.promoter_8m_kit_add">5hmC    Adult    Kit+     Promoter</option><option value="hmc.promoter_15m_kit_minus">5hmC    Old Adult    Kit-    Promoter</option><option value="hmc.promoter_15m_kit_add">5hmC    Old Adult    Kit+    Promoter</option><option value="hmc.gene_body_6d_kit_minus">5hmC    Neonatal    Kit-      Gene body</option><option value="hmc.gene_body_6d_kit_add">5hmC    Neonatal    Kit+     Gene body</option><option value="hmc.gene_body_8m_kit_minus">5hmC    Adult    Kit-     Gene body</option><option value="hmc.gene_body_8m_kit_add">5hmC    Adult    Kit+      Gene body</option><option value="hmc.gene_body_15m_kit_minus">5hmC    Old Adult    Kit-      Gene body</option><option value="hmc.gene_body_15m_kit_add">5hmC    Old Adult    Kit+     Gene body</option><option value="mc.promoter_6d_kit_minus">5mC    Neonatal    Kit-   Promoter</option><option value="mc.promoter_6d_kit_add">5mC    Neonatal    Kit+    Promoter</option><option value="mc.promoter_8m_kit_minus">5mC    Adult    Kit-      Promoter</option><option value="mc.promoter_8m_kit_add">5mC    Adult    Kit+     Promoter</option><option value="mc.promoter_15m_kit_minus">5mC    Old Adult    Kit-    Promoter</option><option value="mc.promoter_15m_kit_add">5mC    Old Adult    Kit+    Promoter</option><option value="mc.gene_body_6d_kit_minus">5mC    Neonatal    Kit-      Gene body</option><option value="mc.gene_body_6d_kit_add">5mC    Neonatal    Kit+     Gene body</option><option value="mc.gene_body_8m_kit_minus">5mC    Adult    Kit-     Gene body</option><option value="mc.gene_body_8m_kit_add">5mC    Adult    Kit+      Gene body</option><option value="mc.gene_body_15m_kit_minus">5mC    Old Adult    Kit-      Gene body</option><option value="mc.gene_body_15m_kit_add">5mC    Old Adult    Kit+     Gene body</option></select>&nbsp \n\
+        <select id="customFieldopera1" name="customFieldopera1[]"><option selected="selected" value=">=">&GreaterFullEqual;</option><option value="<=">&LessFullEqual;</option>            </select>&nbsp<input type="text" class="code" id="customFieldValue1" name="customFieldValue1[]" value="" placeholder="Input Value" /> &nbsp<a href="javascript:void(0);" class="remCF1">Remove</a></td></tr>');
+	
+        
+        
+        });
+    $("#customFields1").on('click','.remCF1',function(){
+        $(this).parent().parent().remove();
+    });
+    
+      $(".addCF2").click(function(){
+		$("#customFields2").append('<tr valign="top"><th scope="row"><label for="customFieldName2">Expression</label></th><td><select id="customFieldName2" name="customFieldName2[]"><option selected="selected"></option><option value="rnaseq_6d_kit_minus">RNASEQ    Neonatal    Kit-   Promoter</option><option value="rnaseq_6d_kit_add">RNASEQ     Neonatal    Kit+    Promoter</option><option value="rnaseq_8m_kit_minus">RNASEQ     Adult    Kit-      Promoter</option><option value="rnaseq_8m_kit_add">RNASEQ     Adult    Kit+     Promoter</option><option value="rnaseq_15m_kit_minus">RNASEQ     Old Adult    Kit-    Promoter</option><option value="rnaseq_15m_kit_add">RNASEQ     Old Adult    Kit+    Promoter</option></select> \n\
+        <select id="customFieldopera2" name="customFieldopera2[]"><option selected="selected" value=">=">&GreaterFullEqual;</option><option value="<=">&LessFullEqual;</option></select>&nbsp<input type="text" class="code" id="customFieldValue2" name="customFieldValue2[]" value="" placeholder="Input Value" /> &nbsp<a href="javascript:void(0);" class="remCF2">Remove</a></td></tr>');
+	
+        
+        
+        });
+    $("#customFields2").on('click','.remCF2',function(){
+        $(this).parent().parent().remove();
+    });
+    
+ 
     	
+
 
     });
 function reset() {

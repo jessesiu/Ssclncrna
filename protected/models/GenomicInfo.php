@@ -44,6 +44,12 @@ class GenomicInfo extends CActiveRecord
     public $dhs;
     public $cage;
     public $conserved_elements;
+    public $small_rna;
+    public $gene_symbol;
+    public $ontology;
+    
+    
+    
     /**
      * @return string the associated database table name
      */
@@ -89,6 +95,7 @@ class GenomicInfo extends CActiveRecord
             'mcHmcDetails' => array(self::HAS_MANY, 'McHmcDetails', 'sscagelncrna_id'),
             'coExpressions' => array(self::HAS_MANY, 'CoExpression', 'sscagelncrna_id'),
             'smallRnaPrecursors' => array(self::HAS_MANY, 'SmallRnaPrecursors', 'sscagelncrna_id'),
+            'symbol' => array(self::HAS_MANY, 'Symbol', 'sscagelncrna_id'),
         );
     }
     public function getrefseq(){
@@ -190,7 +197,12 @@ HTML;
             'polya_testis'=>'Poly A',
             'cage'=>'CAGE',
             'dhs'=>'DHS',
-            'conserved_elements'=>'Conserved element'
+            'conserved_elements'=>'Conserved element',
+            'small_rna'=>'Small RNA',
+            'gene_symbol'=>'Gene Symbol',
+            'ontology'=>'Gene Ontology'
+      
+            
         );
     }
     
@@ -237,7 +249,12 @@ HTML;
        // $conditions=array();
         //$conditions[] ="1=1";
         $criteria=new CDbCriteria;
-        $criteria->join ="LEFT JOIN regulatory_features on regulatory_features.sscagelncrna_id=t.sscagelncrna_id";        
+       
+        $criteria->join ="LEFT JOIN regulatory_features on regulatory_features.sscagelncrna_id=t.sscagelncrna_id LEFT JOIN histone_modifications on histone_modifications.sscagelncrna_id=t.sscagelncrna_id "
+                . "LEFT JOIN hmc_modifications on hmc_modifications.sscagelncrna_id=t.sscagelncrna_id LEFT JOIN mc_modifications on mc_modifications.sscagelncrna_id=t.sscagelncrna_id "
+                . "LEFT JOIN expression_data on expression_data.sscagelncrna_id=t.sscagelncrna_id LEFT JOIN small_rna_precursors on small_rna_precursors.sscagelncrna_id=t.sscagelncrna_id "
+                . "LEFT JOIN trans_regulation on trans_regulation.sscagelncrna_id=t.sscagelncrna_id LEFT JOIN cis_regulation on cis_regulation.sscagelncrna_id=t.sscagelncrna_id "
+        . "LEFT JOIN co_expression on co_expression.sscagelncrna_id=t.sscagelncrna_id";   
       
       
         if (!isset($_GET['GenomicInfo'])){
@@ -289,19 +306,27 @@ HTML;
         
             
         if (isset($_GET['GenomicInfo']['coding_gene_refseq_id']) && !empty($_GET['GenomicInfo']['coding_gene_refseq_id'])){
-        $model1 = TransRegulation::model()->findByAttributes(array('coding_gene_refseq_id'=>$_GET['GenomicInfo']['coding_gene_refseq_id']));
-        $this->sscagelncrna_id=$model1->sscagelncrna_id;
+        $model1 = TransRegulation::model()->findAllByAttributes(array('coding_gene_refseq_id'=>$_GET['GenomicInfo']['coding_gene_refseq_id']));
+        $ids1=array();
+
+        foreach($model1 as $model11)
+        {
+          $ids1[]=$model11->sscagelncrna_id;
+         
+        }
+        $criteria->addInCondition('t.sscagelncrna_id', $ids1);
         }
         if (isset($_GET['GenomicInfo']['coding_gene_symbol']) && !empty($_GET['GenomicInfo']['coding_gene_symbol'])){
                     //show empty data at the beginning
         $model1 = TransRegulation::model()->findAllByAttributes(array('coding_gene_symbol'=>  trim($_GET['GenomicInfo']['coding_gene_symbol'])));
         $ids=array();
+
         foreach($model1 as $model11)
         {
           $ids[]=$model11->sscagelncrna_id;
          
         }
-        $criteria->addInCondition('sscagelncrna_id', $ids);
+        $criteria->addInCondition('t.sscagelncrna_id', $ids);
         }
         
         if (isset($_GET['GenomicInfo']['polya_testis']) && !empty($_GET['GenomicInfo']['polya_testis'])){
@@ -330,8 +355,191 @@ HTML;
           $criteria->compare('regulatory_features.conserved_elements',$conserved_elements,true);
         }
         
+         if (isset($_GET['customFieldName']) && !empty($_GET['customFieldName'])){
+          $histon=array();
+          $histonvalue=array();
+          $histonopera=array();
+          $histon=$_GET['customFieldName'];
+          $histonvalue=$_GET['customFieldValue'];
+          $histonopera=$_GET['customFieldopera'];
+          for($int=0;$int<count($histon);$int++)
+          {
+          //echo "histone_modifications.$histon[$int]"."$histonopera[$int]".''.$histonvalue[$int];
+          $criteria->compare("histone_modifications.$histon[$int]","$histonopera[$int]".''.$histonvalue[$int]);
+              
+          }
+          
+        }
         
-        print_r($conditions);
+         if (isset($_GET['customFieldName1']) && !empty($_GET['customFieldName1'])){
+          $histon=array();
+          $histonvalue=array();
+          $histonopera=array();
+          $histon=$_GET['customFieldName1'];
+          $histonvalue=$_GET['customFieldValue1'];
+          $histonopera=$_GET['customFieldopera1'];
+          for($int=0;$int<count($histon);$int++)
+          {
+          //echo "histone_modifications.$histon[$int]"."$histonopera[$int]".''.$histonvalue[$int];
+              $temp=explode(".", $histon[$int]);
+              if($temp[0] === "hmc"){
+                $criteria->compare("hmc_modifications.$temp[1]","$histonopera[$int]".''.$histonvalue[$int]);
+              }
+              else{
+                $criteria->compare("mc_modifications.$temp[1]","$histonopera[$int]".''.$histonvalue[$int]);  
+              }
+              
+          }
+          
+        }
+        if (isset($_GET['customFieldName2']) && !empty($_GET['customFieldName2'])){
+          $histon=array();
+          $histonvalue=array();
+          $histonopera=array();
+          $histon=$_GET['customFieldName2'];
+          $histonvalue=$_GET['customFieldValue2'];
+          $histonopera=$_GET['customFieldopera2'];
+          for($int=0;$int<count($histon);$int++)
+          {
+          //echo "histone_modifications.$histon[$int]"."$histonopera[$int]".''.$histonvalue[$int];
+                
+                $criteria->compare("expression_data.$histon[$int]","$histonopera[$int]".''.$histonvalue[$int]);
+            
+              
+          }
+          
+        }
+         if (isset($_GET['customFieldage']) && !empty($_GET['customFieldage'])){
+         
+            if (isset($_GET['customFieldcelltype']) && !empty($_GET['customFieldcelltype']))
+            {
+                $compare_value=$_GET['customFieldage'].", ".$_GET['customFieldcelltype'];
+                $criteria->compare("expression_data.expression_specificity",$compare_value);
+            }
+            else
+            {
+                $compare_value=$_GET['customFieldage'];
+                $criteria->compare("expression_data.expression_specificity",$compare_value);
+            }
+          //echo "histone_modifications.$histon[$int]"."$histonopera[$int]".''.$histonvalue[$int];
+             
+          }
+          if (isset($_GET['customFieldcelltype']) && !empty($_GET['customFieldcelltype'])){
+         
+            if (isset($_GET['customFieldage']) && !empty($_GET['customFieldage']))
+            {
+                $compare_value=$_GET['customFieldage'].", ".$_GET['customFieldcelltype'];
+                $criteria->compare("expression_data.expression_specificity",$compare_value);
+            }
+            else
+            {
+                $compare_value=$_GET['customFieldcelltype'];
+                $criteria->compare("expression_data.expression_specificity",$compare_value);
+            }
+          //echo "histone_modifications.$histon[$int]"."$histonopera[$int]".''.$histonvalue[$int];
+             
+          }
+        if (isset($_GET['GenomicInfo']['small_rna']) && !empty($_GET['GenomicInfo']['small_rna'])){
+        $small_rna=$_GET['GenomicInfo']['small_rna'];
+        $criteria->compare('small_rna_precursors.small_rna',$small_rna);
+         
+        }
+         if (isset($_GET['GenomicInfo']['gene_symbol']) && !empty($_GET['GenomicInfo']['gene_symbol'])){
+        $gene_symbol=$_GET['GenomicInfo']['gene_symbol'];
+        $criteria->compare('trans_regulation.coding_gene_symbol',$gene_symbol);
+         
+        }
+        
+         if (isset($_GET['GenomicInfo']['ontology']) && !empty($_GET['GenomicInfo']['ontology'])){
+             $connection=Yii::app()->db;/*
+        $connection=Yii::app()->db;
+        $ontology=$_GET['GenomicInfo']['ontology'];
+        $ids=array();
+        
+        $model1 = GeneOntology::model()->findAll(array('condition'=>'ontology LIKE :ONTOLOGY','params'=>array(':ONTOLOGY'=>"%$ontology%")));
+        foreach($model1 as $model11)
+        {
+           $sql="select sscagelncrna_id from cis_regulation where coding_gene_refseq_id=:value";
+           $command=$connection->createCommand($sql);
+           $command->bindParam(":value",$model11->coding_gene_refseq_id,PDO::PARAM_STR); 
+           $rows=$command->queryAll();
+           foreach ($rows as $row) {
+               
+               $ids[]=$row;
+           }
+         
+           $sql2="select sscagelncrna_id from trans_regulation where coding_gene_refseq_id=:value";
+           $command=$connection->createCommand($sql2);
+           $command->bindParam(":value",$model11->coding_gene_refseq_id,PDO::PARAM_STR); 
+           $rows2=$command->queryAll();
+           
+            foreach ($rows2 as $row) {
+               
+               $ids[]=$row;
+           }
+           
+           $sql3="select sscagelncrna_id from co_expression where coding_gene_refseq_id=:value";
+           $command=$connection->createCommand($sql3);
+           $command->bindParam(":value",$model11->coding_gene_refseq_id,PDO::PARAM_STR); 
+           $rows3=$command->queryAll();
+           
+            foreach ($rows3 as $row) {
+               
+               $ids[]=$row;
+           }
+        /*    
+         $model21 = CisRegulation::model()->findAll(array('condition'=>'coding_gene_refseq_id = :ONTOLOGY','params'=>array(':ONTOLOGY'=>$refseq)));
+         $model22 = TransRegulation::model()->findAll(array('condition'=>'coding_gene_refseq_id = :ONTOLOGY','params'=>array(':ONTOLOGY'=>$refseq)));
+         $model23 = CoExpression::model()->findAll(array('condition'=>'coding_gene_refseq_id = :ONTOLOGY','params'=>array(':ONTOLOGY'=>$refseq)));
+        
+         
+       
+          if(!empty($model21)){
+         foreach($model21 as $model211)
+         {
+            $ids[]=$model211->sscagelncrna_id;
+         }
+          }
+           if(!empty($model22)){
+         foreach($model22 as $model221)
+         {
+            $ids[]=$model221->sscagelncrna_id;
+         }
+           }
+             if(!empty($model23)){
+         foreach($model23 as $model231)
+         {
+            $ids[]=$model231->sscagelncrna_id;
+         }
+             }
+        
+         
+        }
+          * */
+        $ids1=array();     
+        $ontology= "%".$_GET['GenomicInfo']['ontology']."%";    
+        $sql="select DISTINCT symbol.sscagelncrna_id from symbol, gene_ontology where symbol.coding_gene_refseq_id=gene_ontology.coding_gene_refseq_id and gene_ontology.ontology like :ontology";
+        $command=$connection->createCommand($sql);
+        $command->bindParam(":ontology",$ontology,PDO::PARAM_STR); 
+        $rows=$command->queryAll();
+ 
+        
+        foreach($rows as $row)
+        {
+           $ids1[]=$row[sscagelncrna_id];
+          // $criteria->compare('symbol.sscagelncrna_id',$row[sscagelncrna_id]);
+        }
+        if(count($ids1)>500)
+        {
+            echo 'Too many result. Please refine your search criteria.';
+        }
+           $ids1=array_slice($ids1,0,500);
+           $criteria->addInCondition('t.sscagelncrna_id', $ids1);
+        //print_r($ids);
+               
+        }
+        //GO: molecular_function|biological_process|transport|cellular_component|cytoplasmic
+        //print_r($conditions);
         $criteria->compare('id',$this->id);
         $criteria->compare('t.sscagelncrna_id',$this->sscagelncrna_id,true);
         $criteria->compare('ensembltranscript_id',$this->ensembltranscript_id,true);
@@ -349,6 +557,8 @@ HTML;
         $criteria->compare('lncrna_type',$this->lncrna_type,true);
         
         $criteria->compare('secondary_structure',$this->secondary_structure,true);
+        $criteria->group='t.sscagelncrna_id';
+        $criteria->order='t.id';
        // $criteria->addCondition=implode($conditions,'AND');
        print_r( $criteria);
        
